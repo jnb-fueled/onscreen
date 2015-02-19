@@ -279,17 +279,17 @@ OnScreen.prototype.empty = function() {
 OnScreen.prototype.dispose = function() {
 	this.empty();
 
-	if (self.options.scroll) {
-		self.options.scrollContainer.forEach(function(container) {
+	if (this.options.scroll) {
+		this.options.scrollContainer.forEach(function(container) {
 			container.removeEventListener('scroll', this.update);
-		});
+		}, this);
 	}
 
-	if (self.options.resize) {
+	if (this.options.resize) {
 		window.removeEventListener('resize', this.update);
 	}
 
-	if (self.options.load) {
+	if (this.options.load) {
 		window.removeEventListener('load', this.update);
 	}
 };
