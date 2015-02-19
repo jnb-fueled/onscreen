@@ -247,7 +247,7 @@ OnScreen.prototype.addItem = function(element, options) {
 OnScreen.prototype.updateItem = function(element, options) {
 	var index = parseInt(this.map[element]);
 	if (index >= 0 && index < this.items.length && this.items[index]) {
-		this.items[index].options = options;
+		this.items[index].options = this.util.mergeObjects(this.items[index].options, options || {});
 	}
 
 	return this.items[index];
