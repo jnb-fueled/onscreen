@@ -198,7 +198,7 @@ function OnScreen(options) {
 	function dispatchEvent(element, name, data) {
 		var event;
 
-		if ('CustomEvent' in window) {
+		if (typeof CustomEvent === 'function') {
 			event = new CustomEvent(name, {
 				detail: data,
 				bubbles: true,
