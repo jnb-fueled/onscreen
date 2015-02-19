@@ -5,7 +5,7 @@ A utility for efficiently tracking the position of elements through the viewport
 
 ## Basic Usage
 
-	// create an intance of the manager
+	// create an instance of the manager
 	var onScreen = new OnScreen();
 
 	// add an element
