@@ -99,13 +99,10 @@ function OnScreen(options) {
 
 			// Screen Move
 			if (!options.disableScreenMove && (isOnScreen || options.fireScreenMoveOffScreen)) {
-
-				if (!dispatchEvent(element, 'screenmove', detail)) {
+				
+				if (!dispatchEvent(element, 'screenmove', detail) ||
+					(options.onScreenMove && options.onScreenMove.call(element, detail) === false)) {
 					return;
-				}
-
-				if (options.onScreenMove) {
-					options.onScreenMove.call(element, detail);
 				}
 			}
 		});
