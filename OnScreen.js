@@ -62,11 +62,8 @@ function OnScreen(options) {
 				if (!item.onscreen) {
 					item.onscreen = true;
 
-					if (!dispatchEvent(element, 'screenenter', detail)) {
-						return;
-					}
-
-					if (options.onScreenEnter && options.onScreenEnter.call(element, detail) === false) {
+					if (!dispatchEvent(element, 'screenenter', detail) ||
+						(options.onScreenEnter && options.onScreenEnter.call(element, detail) === false)) {
 						return
 					}
 
@@ -86,11 +83,8 @@ function OnScreen(options) {
 				if (item.onscreen) {
 					item.onscreen = false;
 
-					if (!dispatchEvent(element, 'screenleave', detail)) {
-						return;
-					}
-
-					if (options.onScreenLeave && options.onScreenLeave.call(element, detail) === false) {
+					if (!dispatchEvent(element, 'screenleave', detail) ||
+						(options.onScreenLeave && options.onScreenLeave.call(element, detail) === false)) {
 						return;
 					}
 					
