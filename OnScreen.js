@@ -18,7 +18,7 @@ function OnScreen(options) {
 	};
 
 	if (self.options.scroll) {
-		self.options.scrollContainer.forEach(function(container) {
+		[].forEach.call(self.options.scrollContainer, function(container) {
 			container.addEventListener('scroll', update);
 		});
 	}
