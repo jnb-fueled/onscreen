@@ -100,19 +100,19 @@ To do this you can 'modify' the tracked areas of both the screen and the target 
 ```javascript
 // track when the elements vertical 'middle' enters/leaves the viewport
 onScreen.addItem(document.getElementById('my-element'), {
-	target: { top: 50%, bottom: 50% }
+	target: { top: '50%', bottom: '50%' }
 });
 
 
 // track when the element enters/leaves the vertical 'middle' of the viewport
 onScreen.addItem(document.getElementById('my-element'), {
-	screen: { top: 50%, bottom: 50% }
+	screen: { top: '50%', bottom: '50%' }
 });
 
 // track when the elements vertical 'middle' enters/leaves a quarter of the way into the viewport
 onScreen.addItem(document.getElementById('my-element'), {
-	screen: { top: 25%, bottom: 25% },
-	target: { top: 50%, bottom: 50% }
+	screen: { top: '25%', bottom: '25%' },
+	target: { top: '50%', bottom: '50%' }
 });
 
 // unitless values (or those using unsupported units), are treated as pixel values
@@ -124,7 +124,7 @@ onScreen.addItem(document.getElementById('my-element'), {
 // horizontal positions are also supported
 // track the horizontal center of the element
 onScreen.addItem(document.getElementById('my-element'), {
-	target: { left: 50%, right: 50% }
+	target: { left: '50%', right: '50%' }
 });
 ```
 
