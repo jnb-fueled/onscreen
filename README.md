@@ -5,11 +5,13 @@ A utility for efficiently tracking the position of elements through the viewport
 
 ## Basic Usage
 
+	```javascript
 	// create an instance of the manager
 	var onScreen = new OnScreen();
 
 	// add an element
 	onScreen.addItem(document.getElementById('my-element'));
+	```
 
 
 By default the manager will track an item's position on page load, screen resizes, and page scrolling. If an item is detected as 'visible' it will have two classes applied to it:
@@ -26,6 +28,7 @@ When the same element leaves the viewport, those classes will be replaced with `
 
 The `OnScreen` constructor can accept an object hash of options:
 
+	```javascript
 	var onScreen = new OnScreen({
 		// an array or nodeList of elements broadcasting 'scroll' events
 		scrollContainer: [document.body, document.documentElement, window],
@@ -39,10 +42,12 @@ The `OnScreen` constructor can accept an object hash of options:
 		// boolean to enable/disable load tracking
 		load: true
 	});
+	```
 
 
 Similarly when adding an item an object hash of options can be passed:
 
+	```javascript
 	onScreen.addItem(document.getElementById('my-element'), {
 		// by default the viewport is the size of the actual viewport
 		// however this can be modified with % or px values here
@@ -83,6 +88,7 @@ Similarly when adding an item an object hash of options can be passed:
 		// it will be passed to any callbacks or event handlers
 		data: undefined
 	});
+	```
 
 
 ### Altering the enter and exit positions of an element and viewport
@@ -91,6 +97,7 @@ It will be common that you would want to only fire an event or add a class when 
 
 To do this you can 'modify' the tracked areas of both the screen and the target element:
 
+	```javascript
 	// track when the elements vertical 'middle' enters/leaves the viewport
 	onScreen.addItem(document.getElementById('my-element'), {
 		target: { top: 50%, bottom: 50% }
@@ -119,12 +126,14 @@ To do this you can 'modify' the tracked areas of both the screen and the target 
 	onScreen.addItem(document.getElementById('my-element'), {
 		target: { left: 50%, right: 50% }
 	});
+	```
 
 
 ### The 'ScreenMove' callback
 
 A 'ScreenMove' callback can be added using the property 'onScreenMove' in the options when adding an element to be tracked:
 
+	```javascript
 	//...
 	
 	onScreenMove: function(detail) {
@@ -146,6 +155,7 @@ A 'ScreenMove' callback can be added using the property 'onScreenMove' in the op
 	}
 
 	//...
+	```
 
 The `offset` object contains a series of normalised values (0-1) that inform you how far through the viewport the element is in relation to that particular edge of the viewport (on it's logical axis - top/bottom = y, left/right = x)
 
@@ -153,6 +163,7 @@ The values can be used to 'scrub' through an animation sequence as the element m
 
 For example:
 
+	```javascript
 	onScreenMove: function(detail) {
 		var offset = detail.offset.top; // normalised value between 0 and 1 when element is visible
 		var position = offset * 100;
@@ -160,6 +171,7 @@ For example:
 		element.style.opacity = offset;
 		element.style.transform = 'translateY(' + position + '%)';
 	}
+	```
 
 
 ### The 'ScreenEnter' and 'ScreenLeave' callbacks
@@ -170,6 +182,7 @@ These events will only fire once when enetering and once when leaving rather tha
 
 Returning `false` from them will prevent the CSS classes from being added to the tracked element:
 
+	```javascript
 	//...
 	
 	onScreenEnter: function(detail) {
@@ -178,12 +191,14 @@ Returning `false` from them will prevent the CSS classes from being added to the
 	}
 
 	//...
+	```
 
 
 #### Real events with 'addEventListener'
 
 In addition to the callbacks that can be passed when adding an item, events can be attached in the usual way:
 
+	```javascript
 	element.addEventListener('screenenter', function(e) {
 		console.log(e.detail);
 		/*
@@ -204,12 +219,14 @@ In addition to the callbacks that can be passed when adding an item, events can 
 		// calling 'preventDefault' will stop CSS classes being added to the element
 		e.preventDefault();
 	});
+	```
 
 
 ## Other methods
 
 There are a few other methods that do what you would think they would:
 
+	```javascript
 	var onScreen = new OnScreen();
 
 	// add an element
@@ -232,6 +249,7 @@ There are a few other methods that do what you would think they would:
 
 	// clear all tracked items from this instance and detach all events
 	onScreen.dispose();
+	```
 
 
 
