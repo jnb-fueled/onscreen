@@ -110,25 +110,49 @@ function OnScreen(options) {
 
 
 	function check(item) {
-		var screenBounds = {
-			top: 0,
-			right: window.innerWidth,
-			bottom: window.innerHeight,
-			left: 0,
-			width: window.innerWidth,
-			height: window.innerHeight
-		};
+		var targetBounds = item.element.getBoundingClientRect(),
+			screenBounds = {
+				top: 0,
+				right: window.innerWidth,
+				bottom: window.innerHeight,
+				left: 0,
+				width: window.innerWidth,
+				height: window.innerHeight
+			};
 
-		var targetBounds = item.element.getBoundingClientRect();
+		var targetRect = getModifiedRect(targetBounds, item.options.target),
+			screenRect = getModifiedRect(screenBounds, item.options.screen);
 
-		var screenRect = getModifiedRect(screenBounds, item.options.screen);
-		var targetRect = getModifiedRect(targetBounds, item.options.target);
+		var offsetTop = targetRect.top - screenRect.top,
+			offsetRight = screenRect.right - targetRect.right,
+			offsetBottom = screenRect.bottom - targetRect.bottom,
+			offsetLeft = targetRect.left - screenRect.left;
+
+		var insideHeight = screenRect.height - targetRect.height,
+			insideWidth = screenRect.width - targetRect.width;
+
+		var outsideHeight = screenRect.height + targetRect.height,
+			outsideWidth = screenRect.width + targetRect.width;
 
 		var offset = {
-			top: (targetRect.top - screenRect.top) / screenRect.height,
-			right: -(targetRect.right - screenRect.right) / screenRect.width,
-			bottom: -(targetRect.bottom - screenRect.bottom) / screenRect.height,
-			left: (targetRect.left - screenRect.left) / screenRect.width
+			top: offsetTop / screenRect.height,
+			right: offsetRight / screenRect.width,
+			bottom: offsetBottom / screenRect.height,
+			left: offsetLeft / screenRect.width,
+
+			inside: {
+				top: offsetTop / insideHeight,
+				right: offsetRight / insideWidth,
+				bottom: offsetBottom /insideHeight,
+				left: offsetLeft / insideWidth
+			},
+
+			outside: {
+				top: (targetRect.bottom - screenRect.top) / outsideHeight,
+				right: (screenRect.right - targetRect.left) / outsideWidth,
+				bottom: (screenRect.bottom - targetRect.top) / outsideHeight,
+				left: (targetRect.right - screenRect.left) / outsideWidth
+			}
 		};
 
 		var side = [];
@@ -174,8 +198,9 @@ function OnScreen(options) {
 		modRect.right = rect.right - (mods.right ? getModifierValue(mods.right, width) : 0);
 		modRect.bottom = rect.bottom - (mods.bottom ? getModifierValue(mods.bottom, height) : 0);
 		modRect.left = rect.left + (mods.left ? getModifierValue(mods.left, width) : 0);
-		modRect.width = rect.right - rect.left;
-		modRect.height = rect.bottom - rect.top;
+
+		modRect.width = modRect.right - modRect.left;
+		modRect.height = modRect.bottom - modRect.top;
 
 		return modRect;
 	}
