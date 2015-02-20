@@ -1,0 +1,185 @@
+<html>
+<head>
+	<title></title>
+
+	<style>
+
+		html {
+			height:100%;
+		}
+
+		body {
+			padding:100vh 0;
+			margin:0;
+		}
+
+		.screen {
+			outline: 1000px solid rgba(200,0,0,.1);
+			/*background: rgba(0,200,0,.1);*/
+			position:fixed;
+			bottom:25%;
+			right:25%;
+			left:25%;
+			top:25%;
+		}
+
+		.slide {
+			border:1px dotted rgba(0,0,0,.25);
+			overflow:hidden;
+		}
+
+		.square {
+			text-align:center;
+			font-weight:bold;
+			line-height:50px;
+			height:50px;
+			width:250px;
+			color:#fff;
+		}
+
+		.default {
+			background:#C00;
+		}
+
+		.inside {
+			background:#0C0;
+		}
+
+		.outside {
+			background:#00C;
+		}
+
+		.easing {
+			background:#C0C;
+		}
+
+		.opacity1 {
+			background:#0CC;
+		}
+
+		.opacity2 {
+			background:#CC0;
+		}
+
+		.opacity3 {
+			background:#CC0;
+		}
+
+		pre {
+			text-overflow:ellipsis;
+			overflow:hidden;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<div class="screen">
+		<p class="message"></p>
+		<pre class="offsets"></pre>
+	</div>
+
+	<div class="slide">
+
+		<div class="target">
+			<div class="square default">Default</div>
+			<div class="square inside">Inside</div>
+			<div class="square outside">Outside</div>
+			<div class="square easing">Outside Easing</div>
+			<div class="square opacity1">Outside Opacity 1</div>
+			<div class="square opacity2">Outside Opacity 2</div>
+			<div class="square opacity3">Outside Opacity 3 (Easing)</div>
+		</div>
+
+	</div>
+
+
+	<script src="../OnScreen.js"></script>
+
+	<script>
+
+	var message = document.querySelector('.message');
+	var offsets = document.querySelector('.offsets');
+
+	var onScreen = new OnScreen();
+
+	[].forEach.call(document.querySelectorAll('.target'), function (item) {
+
+		var squareDefault = item.querySelector('.square.default'),
+			squareInside = item.querySelector('.square.inside'),
+			squareOutside = item.querySelector('.square.outside'),
+			squareEasing = item.querySelector('.square.easing'),
+			squareOpacity1 = item.querySelector('.square.opacity1'),
+			squareOpacity2 = item.querySelector('.square.opacity2'),
+			squareOpacity3 = item.querySelector('.square.opacity3');
+
+		onScreen.addItem(item, {
+			screen: {
+				top:'25%', right:'25%', bottom:'25%', left:'25%'
+			},
+			onScreenEnter: function(detail) {
+				message.innerHTML = 'hello ' + detail.side;
+			},
+			onScreenLeave: function(detail) {
+				message.innerHTML = 'goodbye ' + detail.side;
+			},
+			onScreenMove: function(detail) {
+				var maxTravelDistance = this.offsetWidth - squareDefault.offsetWidth;
+
+				var positionDefault = detail.offset.bottom * maxTravelDistance,
+					positionInside = detail.offset.inside.bottom * maxTravelDistance,
+					positionOutside = detail.offset.outside.bottom * maxTravelDistance,
+					positionEasing = easeInOutSine(Math.max(0, Math.min(1, detail.offset.outside.bottom)), 0, 1, 1) * maxTravelDistance;
+
+				offsets.innerHTML = JSON.stringify(detail.offset, null, 4);
+
+				['webkitTransform', 'mozTransform', 'msTransform', 'transform'].forEach(function(property) {
+					squareDefault.style[property] = 'translateX(' + positionDefault + 'px)';
+					squareInside.style[property] = 'translateX(' + positionInside + 'px)';
+					squareOutside.style[property] = 'translateX(' + positionOutside + 'px)';
+					squareEasing.style[property] = 'translateX(' + positionEasing + 'px)';
+					squareOpacity1.style[property] = 'translateX(' + positionOutside + 'px)';
+					squareOpacity2.style[property] = 'translateX(' + positionOutside + 'px)';
+					squareOpacity3.style[property] = 'translateX(' + positionOutside + 'px)';
+				});
+
+				squareOpacity1.style.opacity = Math.abs(linear(detail.offset.outside.bottom,-1,2,1));
+				squareOpacity2.style.opacity = 1 - Math.abs(linear(detail.offset.outside.bottom,-1,2,1));
+				squareOpacity3.style.opacity = 1 - Math.abs(easeOutInSine(detail.offset.outside.bottom,-1,2,1));
+			},
+			fireScreenMoveOffScreen: true
+		});		
+
+	});
+
+
+	function linear(t, b, c, d) {
+		return c*t/d + b;
+	};
+
+	function easeInSine(t, b, c, d) {
+		return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+	};
+
+	function easeOutSine(t, b, c, d) {
+		return c * Math.sin(t/d * (Math.PI/2)) + b;
+	};
+
+	function easeInOutSine(t, b, c, d) {
+		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+	};
+
+	function easeOutInSine(t, b, c, d) {
+		if (t < d/2) {
+	    	return easeOutSine(t * 2, b, c/2, d);
+	    } else {
+	    	return easeInSine((t * 2) - d, b + c/2, c/2, d);
+	    }
+	};
+
+
+	</script>
+
+</body>
+</html>

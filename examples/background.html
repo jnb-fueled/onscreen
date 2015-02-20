@@ -1,0 +1,160 @@
+<html>
+<head>
+	<title></title>
+
+	<style>
+
+		html {
+			height:100%;
+		}
+
+		body {
+			padding:75vh 0;
+			margin:0;
+		}
+
+		.target {
+			border:10px solid black;
+			box-sizing:border-box;
+			position:relative;
+			padding:10vw 20vw;
+			font-weight:bold;
+			overflow:hidden;
+			margin:5vh 0;
+			height:50vh;
+			color:#fff;
+		}
+
+		.background {
+			background:url(https://placekitten.com/g/300/300) 50% 50%;
+			background-size:cover;
+			position:absolute;
+			padding:0 0 100%;
+			width:100%;
+			left:0;
+			top:0;
+		}
+
+		.background ~ * {
+			position: relative;
+		}
+
+		.target3 .background,
+		.target4 .background {
+			height:100%;
+			width:150%;
+			padding:0;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<div class="target target1">
+		<b class="background"></b>
+		<h1>Background (Slower)</h1>
+
+		<p>Integer ut vestibulum nec a malesuada cubilia vestibulum nec a vivamus porttitor lobortis himenaeos donec adipiscing purus adipiscing a commodo. Commodo lorem nunc vestibulum scelerisque vestibulum a faucibus eros quisque morbi mi tristique ullamcorper a suspendisse sodales suspendisse adipiscing et penatibus ac elit mi id iaculis ut condimentum. Metus donec cum morbi convallis a metus per vulputate cum sodales euismod dis urna adipiscing libero ullamcorper.</p>
+	</div>
+
+	<div class="target target2">
+		<b class="background"></b>
+		<h1>Background (Faster)</h1>
+
+		<p>Integer ut vestibulum nec a malesuada cubilia vestibulum nec a vivamus porttitor lobortis himenaeos donec adipiscing purus adipiscing a commodo. Commodo lorem nunc vestibulum scelerisque vestibulum a faucibus eros quisque morbi mi tristique ullamcorper a suspendisse sodales suspendisse adipiscing et penatibus ac elit mi id iaculis ut condimentum. Metus donec cum morbi convallis a metus per vulputate cum sodales euismod dis urna adipiscing libero ullamcorper.</p>
+	</div>
+
+	<div class="target target3">
+		<b class="background"></b>
+		<h1>Background (Left)</h1>
+
+		<p>Integer ut vestibulum nec a malesuada cubilia vestibulum nec a vivamus porttitor lobortis himenaeos donec adipiscing purus adipiscing a commodo. Commodo lorem nunc vestibulum scelerisque vestibulum a faucibus eros quisque morbi mi tristique ullamcorper a suspendisse sodales suspendisse adipiscing et penatibus ac elit mi id iaculis ut condimentum. Metus donec cum morbi convallis a metus per vulputate cum sodales euismod dis urna adipiscing libero ullamcorper.</p>
+	</div>
+
+	<div class="target target4">
+		<b class="background"></b>
+		<h1>Background (Right)</h1>
+
+		<p>Integer ut vestibulum nec a malesuada cubilia vestibulum nec a vivamus porttitor lobortis himenaeos donec adipiscing purus adipiscing a commodo. Commodo lorem nunc vestibulum scelerisque vestibulum a faucibus eros quisque morbi mi tristique ullamcorper a suspendisse sodales suspendisse adipiscing et penatibus ac elit mi id iaculis ut condimentum. Metus donec cum morbi convallis a metus per vulputate cum sodales euismod dis urna adipiscing libero ullamcorper.</p>
+	</div>
+
+
+	<script src="../OnScreen.js"></script>
+
+	<script>
+
+	var onScreen = new OnScreen();
+
+	[].forEach.call(document.querySelectorAll('.target1'), function (item) {
+
+		var background = item.querySelector('.background');
+
+		onScreen.addItem(item, {
+			onScreenMove: function(detail) {
+				var maxTravelDistance = -33.33333;
+				var position = detail.offset.outside.top * maxTravelDistance;
+
+				['webkitTransform', 'mozTransform', 'msTransform', 'transform'].forEach(function(property) {
+					background.style[property] = 'translateY(' + position + '%)';
+				});
+			}
+		});
+
+	});
+
+	[].forEach.call(document.querySelectorAll('.target2'), function (item) {
+
+		var background = item.querySelector('.background');
+
+		onScreen.addItem(item, {
+			onScreenMove: function(detail) {
+				var maxTravelDistance = -33.33333;
+				var position = detail.offset.outside.bottom * maxTravelDistance;
+
+				['webkitTransform', 'mozTransform', 'msTransform', 'transform'].forEach(function(property) {
+					background.style[property] = 'translateY(' + position + '%)';
+				});
+			}
+		});
+
+	});
+
+	[].forEach.call(document.querySelectorAll('.target3'), function (item) {
+
+		var background = item.querySelector('.background');
+
+		onScreen.addItem(item, {
+			onScreenMove: function(detail) {
+				var maxTravelDistance = -33.33333;
+				var position = detail.offset.outside.bottom * maxTravelDistance;
+
+				['webkitTransform', 'mozTransform', 'msTransform', 'transform'].forEach(function(property) {
+					background.style[property] = 'translateX(' + position + '%)';
+				});
+			}
+		});
+
+	});
+
+	[].forEach.call(document.querySelectorAll('.target4'), function (item) {
+
+		var background = item.querySelector('.background');
+
+		onScreen.addItem(item, {
+			onScreenMove: function(detail) {
+				var maxTravelDistance = -33.33333;
+				var position = detail.offset.outside.top * maxTravelDistance;
+
+				['webkitTransform', 'mozTransform', 'msTransform', 'transform'].forEach(function(property) {
+					background.style[property] = 'translateX(' + position + '%)';
+				});
+			}
+		});
+
+	});
+
+	</script>
+
+</body>
+</html>
